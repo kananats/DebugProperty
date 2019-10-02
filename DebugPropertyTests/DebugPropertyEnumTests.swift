@@ -44,6 +44,7 @@ class DebugPropertyEnumTests: XCTestCase {
 
     func testDebugUtil1() {
         UserDefaults.standard.set(DebugEnum.two.rawValue, forKey: Key.key)
+        
         debugUtil = DebugUtil()
         XCTAssertEqual(debugUtil.enumValue, .two)
         

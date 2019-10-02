@@ -1,36 +1,65 @@
 import Foundation
 
-fileprivate final class KeyValueHolder<Value: Equatable> {
-    private let key: String
-    var value: Value
-    
-    init(wrappedValue: Value, key: String) {
-        self.key = key
-        value = wrappedValue
-        value = storedValue
-        storedValue = value
-    }
+private func makeKeyValueHolder<Value>(wrappedValue: Value?, key: String) -> KeyValueHolder<Value> {
+    return KeyValueHolder(wrappedValue: wrappedValue, key: key)
+}
 
-    convenience init(key: String) {
-        guard let value = UserDefaults.standard.value(forKey: key) as? Value else {
+private func makeEnumKeyValueHolder<Value: RawRepresentable>(wrappedValue: Value?, key: String) -> KeyValueHolder<Value> {
+    return EnumKeyValueHolder(wrappedValue: wrappedValue, key: key)
+}
+
+fileprivate final class EnumKeyValueHolder<Value: RawRepresentable & Equatable>: KeyValueHolder<Value> {
+    private var rawValue: Value.RawValue
+
+    override var value: Value {
+        get {
+            return Value(rawValue: rawValue)!
+        }
+        set {
+            rawValue = newValue.rawValue
+            super.value = newValue
+        }
+    }
+    
+    override init(wrappedValue: Value?, key: String) {
+        if let wrappedValue = UserDefaults.standard.value(forKey: key) as? Value.RawValue {
+            rawValue = wrappedValue
+        } else if let wrappedValue = wrappedValue?.rawValue {
+            rawValue = wrappedValue
+        } else {
             fatalError("Please ensure that value exists for key \(key)")
         }
         
-        self.init(wrappedValue: value, key: key)
+        super.init(wrappedValue: wrappedValue, key: key)
     }
+}
+
+fileprivate class KeyValueHolder<Value: Equatable> {
+    private let key: String
+    var value: Value
     
-    func updateValue() {
-        value = storedValue
-    }
-    
-    private var storedValue: Value {
-        get {
-            UserDefaults.standard.value(forKey: key) as? Value ?? self.value
+    init(wrappedValue: Value?, key: String) {
+        self.key = key
+        if let wrappedValue = UserDefaults.standard.value(forKey: key) as? Value {
+            value = wrappedValue
+        } else if let wrappedValue = wrappedValue {
+            value = wrappedValue
+        } else {
+            fatalError("Please ensure that value exists for key \(key)")
         }
-        set {
-            if UserDefaults.standard.value(forKey: key) as? Value != newValue {
-                UserDefaults.standard.set(newValue, forKey: key)
-            }
+        readValue()
+        writeValue()
+    }
+
+    final func readValue() {
+        if let value = UserDefaults.standard.value(forKey: key) as? Value, self.value != value {
+            self.value = value
+        }
+    }
+    
+    final func writeValue() {
+        if UserDefaults.standard.value(forKey: key) as? Value != value {
+            UserDefaults.standard.set(value, forKey: key)
         }
     }
 }
@@ -42,13 +71,9 @@ fileprivate protocol DebugPropertyProtocol {
 @propertyWrapper
 struct DebugProperty<Value: Equatable>: DebugPropertyProtocol {
     private let holder: KeyValueHolder<Value>
-    
-    init(key: String) {
-        holder = KeyValueHolder(key: key)
-    }
-    
-    init(wrappedValue: Value, key: String) {
-        holder = KeyValueHolder(wrappedValue: wrappedValue, key: key)
+
+    init(wrappedValue: Value? = nil, key: String) {
+        holder = makeKeyValueHolder(wrappedValue: wrappedValue, key: key)
     }
 
     var wrappedValue: Value {
@@ -61,7 +86,7 @@ struct DebugProperty<Value: Equatable>: DebugPropertyProtocol {
     }
     
     func execute() {
-        holder.updateValue()
+        holder.readValue()
     }
 }
 
@@ -71,13 +96,9 @@ fileprivate protocol ResetPropertyProtocol: DebugPropertyProtocol {
 @propertyWrapper
 struct ResetProperty: ResetPropertyProtocol {
     private let holder: KeyValueHolder<Key>
-    
-    init(key: String) {
-        holder = KeyValueHolder(key: key)
-    }
-    
-    init(wrappedValue: Key, key: String) {
-        holder = KeyValueHolder(wrappedValue: wrappedValue, key: key)
+
+    init(wrappedValue: Key? = nil, key: String) {
+        holder = makeKeyValueHolder(wrappedValue: wrappedValue, key: key)
     }
     
     var wrappedValue: Key {
