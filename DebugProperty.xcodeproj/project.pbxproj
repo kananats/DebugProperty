@@ -7,15 +7,24 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BA10B1E423461E2300F09C69 /* IntNoDefaultTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA10B1E323461E2300F09C69 /* IntNoDefaultTests.swift */; };
+		BA10B1E623461EA100F09C69 /* DoubleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA10B1E523461EA100F09C69 /* DoubleTests.swift */; };
+		BA10B1E823461F8400F09C69 /* DoubleNoDefaultTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA10B1E723461F8400F09C69 /* DoubleNoDefaultTests.swift */; };
+		BA10B1EA23461FBB00F09C69 /* BaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA10B1E923461FBB00F09C69 /* BaseTests.swift */; };
+		BA6404972346282A00387B7E /* BoolTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6404962346282A00387B7E /* BoolTests.swift */; };
+		BA6404992346299500387B7E /* BoolNoDefaultTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6404982346299500387B7E /* BoolNoDefaultTests.swift */; };
+		BA64049B234629DB00387B7E /* StringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA64049A234629DB00387B7E /* StringTests.swift */; };
+		BA64049D23462A8D00387B7E /* StringNoDefaultTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA64049C23462A8D00387B7E /* StringNoDefaultTests.swift */; };
+		BA64049F23462AB300387B7E /* EnumNoDefaultTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA64049E23462AB300387B7E /* EnumNoDefaultTests.swift */; };
 		BA723B0423436E2500016CA8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA723B0323436E2500016CA8 /* AppDelegate.swift */; };
 		BA723B0623436E2500016CA8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA723B0523436E2500016CA8 /* SceneDelegate.swift */; };
 		BA723B0823436E2500016CA8 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA723B0723436E2500016CA8 /* ContentView.swift */; };
 		BA723B0A23436E2600016CA8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA723B0923436E2600016CA8 /* Assets.xcassets */; };
 		BA723B0D23436E2600016CA8 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA723B0C23436E2600016CA8 /* Preview Assets.xcassets */; };
 		BA723B1023436E2600016CA8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA723B0E23436E2600016CA8 /* LaunchScreen.storyboard */; };
-		BA723B1B23436E2600016CA8 /* DebugPropertyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA723B1A23436E2600016CA8 /* DebugPropertyTests.swift */; };
+		BA723B1B23436E2600016CA8 /* IntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA723B1A23436E2600016CA8 /* IntTests.swift */; };
 		BA723B2623436E3300016CA8 /* DebugProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA723B2523436E3300016CA8 /* DebugProperty.swift */; };
-		BA723B582343857A00016CA8 /* DebugPropertyEnumTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA723B572343857A00016CA8 /* DebugPropertyEnumTests.swift */; };
+		BA723B582343857A00016CA8 /* EnumTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA723B572343857A00016CA8 /* EnumTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +38,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BA10B1E323461E2300F09C69 /* IntNoDefaultTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntNoDefaultTests.swift; sourceTree = "<group>"; };
+		BA10B1E523461EA100F09C69 /* DoubleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleTests.swift; sourceTree = "<group>"; };
+		BA10B1E723461F8400F09C69 /* DoubleNoDefaultTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleNoDefaultTests.swift; sourceTree = "<group>"; };
+		BA10B1E923461FBB00F09C69 /* BaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTests.swift; sourceTree = "<group>"; };
+		BA6404962346282A00387B7E /* BoolTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoolTests.swift; sourceTree = "<group>"; };
+		BA6404982346299500387B7E /* BoolNoDefaultTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoolNoDefaultTests.swift; sourceTree = "<group>"; };
+		BA64049A234629DB00387B7E /* StringTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringTests.swift; sourceTree = "<group>"; };
+		BA64049C23462A8D00387B7E /* StringNoDefaultTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringNoDefaultTests.swift; sourceTree = "<group>"; };
+		BA64049E23462AB300387B7E /* EnumNoDefaultTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnumNoDefaultTests.swift; sourceTree = "<group>"; };
 		BA723B0023436E2500016CA8 /* DebugProperty.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DebugProperty.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA723B0323436E2500016CA8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BA723B0523436E2500016CA8 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -38,10 +56,10 @@
 		BA723B0F23436E2600016CA8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BA723B1123436E2600016CA8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BA723B1623436E2600016CA8 /* DebugPropertyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DebugPropertyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		BA723B1A23436E2600016CA8 /* DebugPropertyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugPropertyTests.swift; sourceTree = "<group>"; };
+		BA723B1A23436E2600016CA8 /* IntTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntTests.swift; sourceTree = "<group>"; };
 		BA723B1C23436E2600016CA8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BA723B2523436E3300016CA8 /* DebugProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugProperty.swift; sourceTree = "<group>"; };
-		BA723B572343857A00016CA8 /* DebugPropertyEnumTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugPropertyEnumTests.swift; sourceTree = "<group>"; };
+		BA723B572343857A00016CA8 /* EnumTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnumTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,8 +124,17 @@
 		BA723B1923436E2600016CA8 /* DebugPropertyTests */ = {
 			isa = PBXGroup;
 			children = (
-				BA723B1A23436E2600016CA8 /* DebugPropertyTests.swift */,
-				BA723B572343857A00016CA8 /* DebugPropertyEnumTests.swift */,
+				BA10B1E923461FBB00F09C69 /* BaseTests.swift */,
+				BA6404962346282A00387B7E /* BoolTests.swift */,
+				BA6404982346299500387B7E /* BoolNoDefaultTests.swift */,
+				BA723B1A23436E2600016CA8 /* IntTests.swift */,
+				BA10B1E323461E2300F09C69 /* IntNoDefaultTests.swift */,
+				BA10B1E523461EA100F09C69 /* DoubleTests.swift */,
+				BA10B1E723461F8400F09C69 /* DoubleNoDefaultTests.swift */,
+				BA64049A234629DB00387B7E /* StringTests.swift */,
+				BA64049C23462A8D00387B7E /* StringNoDefaultTests.swift */,
+				BA723B572343857A00016CA8 /* EnumTests.swift */,
+				BA64049E23462AB300387B7E /* EnumNoDefaultTests.swift */,
 				BA723B1C23436E2600016CA8 /* Info.plist */,
 			);
 			path = DebugPropertyTests;
@@ -225,8 +252,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BA723B1B23436E2600016CA8 /* DebugPropertyTests.swift in Sources */,
-				BA723B582343857A00016CA8 /* DebugPropertyEnumTests.swift in Sources */,
+				BA723B1B23436E2600016CA8 /* IntTests.swift in Sources */,
+				BA64049F23462AB300387B7E /* EnumNoDefaultTests.swift in Sources */,
+				BA10B1EA23461FBB00F09C69 /* BaseTests.swift in Sources */,
+				BA10B1E823461F8400F09C69 /* DoubleNoDefaultTests.swift in Sources */,
+				BA6404972346282A00387B7E /* BoolTests.swift in Sources */,
+				BA6404992346299500387B7E /* BoolNoDefaultTests.swift in Sources */,
+				BA10B1E423461E2300F09C69 /* IntNoDefaultTests.swift in Sources */,
+				BA10B1E623461EA100F09C69 /* DoubleTests.swift in Sources */,
+				BA64049B234629DB00387B7E /* StringTests.swift in Sources */,
+				BA723B582343857A00016CA8 /* EnumTests.swift in Sources */,
+				BA64049D23462A8D00387B7E /* StringNoDefaultTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

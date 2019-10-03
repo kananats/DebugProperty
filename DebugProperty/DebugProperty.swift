@@ -1,46 +1,88 @@
 import Foundation
 
-private func makeKeyValueHolder<Value>(wrappedValue: Value?, key: String) -> KeyValueHolder<Value> {
-    return KeyValueHolder(wrappedValue: wrappedValue, key: key)
+public protocol Debuggable: Equatable {
+    associatedtype DebugValue: Equatable
+        
+    init(debugValue: DebugValue)
+    
+    var debugValue: DebugValue { get }
 }
 
-private func makeEnumKeyValueHolder<Value: RawRepresentable>(wrappedValue: Value?, key: String) -> KeyValueHolder<Value> {
-    return EnumKeyValueHolder(wrappedValue: wrappedValue, key: key)
-}
-
-fileprivate final class EnumKeyValueHolder<Value: RawRepresentable & Equatable>: KeyValueHolder<Value> {
-    private var rawValue: Value.RawValue
-
-    override var value: Value {
-        get {
-            return Value(rawValue: rawValue)!
-        }
-        set {
-            rawValue = newValue.rawValue
-            super.value = newValue
-        }
+extension Bool: Debuggable {
+    public var debugValue: Bool {
+        self
     }
     
-    override init(wrappedValue: Value?, key: String) {
-        if let wrappedValue = UserDefaults.standard.value(forKey: key) as? Value.RawValue {
-            rawValue = wrappedValue
-        } else if let wrappedValue = wrappedValue?.rawValue {
-            rawValue = wrappedValue
-        } else {
-            fatalError("Please ensure that value exists for key \(key)")
-        }
-        
-        super.init(wrappedValue: wrappedValue, key: key)
+    public init(debugValue: Bool) {
+        self.init(debugValue)
     }
 }
 
-fileprivate class KeyValueHolder<Value: Equatable> {
+extension Int: Debuggable {
+    public var debugValue: Int {
+        self
+    }
+    
+    public init(debugValue: Int) {
+        self.init(debugValue)
+    }
+}
+
+extension Double: Debuggable {
+    public var debugValue: Double {
+        self
+    }
+    
+    public init(debugValue: Double) {
+        self.init(debugValue)
+    }
+}
+
+extension String: Debuggable {
+    public var debugValue: String {
+        self
+    }
+    
+    public init(debugValue: String) {
+        self.init(debugValue)
+    }
+}
+
+extension Debuggable where Self: RawRepresentable {
+    public var debugValue: RawValue {
+        return rawValue
+    }
+    
+    public init(debugValue: RawValue) {
+        guard Self.init(rawValue: debugValue) != nil else {
+            fatalError("Unexpected rawValue: \(debugValue)")
+        }
+        
+        self.init(rawValue: debugValue)!
+    }
+}
+
+fileprivate extension UserDefaults {
+    func debugValue<Value: Debuggable>(forKey key: String) -> Value? {
+        if let debugValue = value(forKey: key) as? Value.DebugValue {
+            return Value.init(debugValue: debugValue)
+        }
+        return nil
+    }
+    
+    func setDebugValue<Value: Debuggable>(_ value: Value, forKey key: String) {
+        let debugValue = value.debugValue
+        set(debugValue, forKey: key)
+    }
+}
+
+fileprivate class KeyValueHolder<Value: Debuggable> {
     private let key: String
     var value: Value
     
     init(wrappedValue: Value?, key: String) {
         self.key = key
-        if let wrappedValue = UserDefaults.standard.value(forKey: key) as? Value {
+        if let wrappedValue: Value = UserDefaults.standard.debugValue(forKey: key) {
             value = wrappedValue
         } else if let wrappedValue = wrappedValue {
             value = wrappedValue
@@ -50,33 +92,43 @@ fileprivate class KeyValueHolder<Value: Equatable> {
         readValue()
         writeValue()
     }
-
+    
     final func readValue() {
-        if let value = UserDefaults.standard.value(forKey: key) as? Value, self.value != value {
+        if let value: Value = UserDefaults.standard.debugValue(forKey: key), self.value != value {
             self.value = value
         }
     }
     
     final func writeValue() {
-        if UserDefaults.standard.value(forKey: key) as? Value != value {
+        if let value: Value = UserDefaults.standard.debugValue(forKey: key), self.value != value {
             UserDefaults.standard.set(value, forKey: key)
         }
     }
 }
 
-fileprivate protocol DebugPropertyProtocol {
-    func execute()
+fileprivate protocol Executable {
+    func executeOnLaunch()
+    
+    func executeOnResume()
+}
+
+extension Executable {
+    func executeOnLaunch() {
+    }
+    
+    func executeOnResume() {
+    }
 }
 
 @propertyWrapper
-struct DebugProperty<Value: Equatable>: DebugPropertyProtocol {
+public struct DebugProperty<Value: Debuggable>: Executable {
     private let holder: KeyValueHolder<Value>
 
     init(wrappedValue: Value? = nil, key: String) {
-        holder = makeKeyValueHolder(wrappedValue: wrappedValue, key: key)
+        holder = KeyValueHolder(wrappedValue: wrappedValue, key: key)
     }
 
-    var wrappedValue: Value {
+    public var wrappedValue: Value {
         get {
             holder.value
         }
@@ -85,23 +137,20 @@ struct DebugProperty<Value: Equatable>: DebugPropertyProtocol {
         }
     }
     
-    func execute() {
+    func executeOnResume() {
         holder.readValue()
     }
 }
 
-fileprivate protocol ResetPropertyProtocol: DebugPropertyProtocol {
-}
-
 @propertyWrapper
-struct ResetProperty: ResetPropertyProtocol {
+public struct ResetProperty: Executable {
     private let holder: KeyValueHolder<Key>
 
     init(wrappedValue: Key? = nil, key: String) {
-        holder = makeKeyValueHolder(wrappedValue: wrappedValue, key: key)
+        holder = KeyValueHolder(wrappedValue: wrappedValue, key: key)
     }
     
-    var wrappedValue: Key {
+    public var wrappedValue: Key {
         get {
             return holder.value
         }
@@ -110,7 +159,7 @@ struct ResetProperty: ResetPropertyProtocol {
         }
     }
     
-    func execute() {
+    func executeOnLaunch() {
         switch wrappedValue {
         case .never:
             break
@@ -127,23 +176,22 @@ struct ResetProperty: ResetPropertyProtocol {
         UserDefaults.standard.removePersistentDomain(forName: domain)
     }
     
-    enum Key: Int {
+    public enum Key: Int, Debuggable {
         case never
         case once
         case always
     }
 }
 
-class DebugUtilBase {
+open class DebugUtilBase {
     private(set) var closures: [() -> Void] = []
         
     init() {
         let mirror = Mirror(reflecting: self)
         for (_, value) in mirror.children {
-            if let value = value as? ResetPropertyProtocol {
-                value.execute()
-            } else if let value = value as? DebugPropertyProtocol {
-                closures.append(value.execute)
+            if let value = value as? Executable {
+                value.executeOnLaunch()
+                closures.append(value.executeOnResume)
             }
         }
     }
